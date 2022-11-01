@@ -10,9 +10,13 @@ GENDER = (
 )
 
 class UserProfile(models.Model):
-    user_id = models.CharField(max_length=250, blank=False, default=uuid.uuid1())
+    user_id = models.CharField(max_length=250, blank=True, default=uuid.uuid1())
     full_name = models.CharField(max_length=250, blank=False, default='')
     user_name = models.CharField(max_length=250, blank=False, default='')
     user_password = models.CharField(max_length=250, blank=False, default='')
-    user_gender = models.CharField(max_length=6, choices=GENDER)
+    user_gender = models.CharField(max_length=6, choices=GENDER, blank=True)
     user_birthdate = models.DateTimeField(default=datetime.now, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'login_userprofile'
