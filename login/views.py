@@ -1,4 +1,3 @@
-from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser 
@@ -21,8 +20,8 @@ def check_login(request):
         username = username.strip()
         try:
             user = UserProfile.objects.get(username=username)
-        except Exception as Error:
-            return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'message': 'The user does not exist'}, status=status.HTTP_404_NOT_FOUND)
         if user.password == password:
             user_profile_serializer = UserProfileSerializer(user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -63,12 +62,16 @@ def user_detail(request, user_id):
         user_profile_serializer = UserProfileSerializer(userProfile)
         return JsonResponse(user_profile_serializer.data)
     elif request.method == 'PUT':
-        user_data = JSONParser().parse(request)
-        user_profile_serializer = UserProfileSerializer(data=user_data)
+        userProfile = UserProfile.objects.get(user_id=user_id)
+        user_profile_serializer = UserProfileSerializer(instance=userProfile, data=request.data)
         if user_profile_serializer.is_valid():
             user_profile_serializer.save()
-            return JsonResponse({'message': '{} User were updated successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
-        return JsonResponse(user_profile_serializer.validated_data, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'message': 'User were updated successfully!'}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return JsonResponse({'message': user_profile_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        count = UserProfile.objects.all().delete()
-        return JsonResponse({'message': '{} User were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        try:
+            UserProfile.objects.get(user_id=user_id).delete()
+        except Exception as Error:
+            return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'message': 'User were deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)

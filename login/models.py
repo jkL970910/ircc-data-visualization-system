@@ -9,6 +9,9 @@ class UserProfile(AbstractUser):
     full_name = models.CharField(max_length=250, blank=False, default='')
     user_gender = models.CharField(max_length=6, blank=False, default='male')
     user_birthdate = models.DateTimeField(default=datetime.now, blank=True)
+    user_address = models.CharField(max_length=250, blank=True, default='')
+    user_phone = models.CharField(max_length=250, blank=True, default='')
+    user_icon = models.CharField(max_length=250, blank=True, default='')
 
     REQUIRED_FIELDS = []
 
