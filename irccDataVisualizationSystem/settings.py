@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'login',
+    'subscription',
+    'plan',
     'rest_auth',
     'django.contrib.sites',
     'rest_auth.registration',
