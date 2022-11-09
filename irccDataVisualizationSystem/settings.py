@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'login',
     'subscription',
     'plan',
+    'datasource',
     'rest_auth',
     'django.contrib.sites',
     'rest_auth.registration',
