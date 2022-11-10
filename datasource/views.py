@@ -4,10 +4,11 @@ from rest_framework.permissions import AllowAny
 from .models import ImmigrationStatusData, CountryData, CategoryData, DestinationData
 from django.http import JsonResponse
 from rest_framework import status
+from rest_framework.parsers import JSONParser
 from .serializer import ImmigrationStatusDataSerializer, CategoryDataSerializer, CountryDataSerializer, DestinationDataSerializer
 
 @csrf_exempt
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @permission_classes((AllowAny,))
 def get_immigration(request, data_id):
     if data_id == '*':
@@ -20,10 +21,17 @@ def get_immigration(request, data_id):
         except ImmigrationStatusData.DoesNotExist: 
             return JsonResponse({'message': 'The immigration_status_data does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    # GET, Update, Delete 1 piece of data by id
+    # GET, Create, Update, Delete 1 piece of data by id
     if request.method == 'GET':
         immigration_status_data_serializer = ImmigrationStatusDataSerializer(data)
         return JsonResponse(immigration_status_data_serializer.data)
+    elif request.method == 'POST':
+        immigration_status_data = JSONParser().parse(request)
+        immigration_status_data_serializer = ImmigrationStatusDataSerializer(data=immigration_status_data)
+        if immigration_status_data_serializer.is_valid():
+            immigration_status_data_serializer.save()
+            return JsonResponse(immigration_status_data_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(immigration_status_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
         immigration_status_data = ImmigrationStatusData.objects.get(id=data_id)
         immigration_status_data_serializer = ImmigrationStatusDataSerializer(instance=immigration_status_data, data=request.data)
@@ -40,7 +48,7 @@ def get_immigration(request, data_id):
         return JsonResponse({'message': 'The immigration_status_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @permission_classes((AllowAny,))
 def get_category(request, data_id):
     datas = CategoryData.objects.all()
@@ -55,10 +63,17 @@ def get_category(request, data_id):
         except CategoryData.DoesNotExist: 
             return JsonResponse({'message': 'The category_data does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    # GET, Update, Delete 1 piece of data by id
+    # GET, Create, Update, Delete 1 piece of data by id
     if request.method == 'GET':
         category_data_serializer = CategoryDataSerializer(data)
         return JsonResponse(category_data_serializer.data)
+    elif request.method == 'POST':
+        category_data = JSONParser().parse(request)
+        category_data_serializer = ImmigrationStatusDataSerializer(data=category_data)
+        if category_data_serializer.is_valid():
+            category_data_serializer.save()
+            return JsonResponse(category_data_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(category_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
         category_data = CategoryData.objects.get(id=data_id)
         category_data_serializer = CategoryDataSerializer(instance=category_data, data=request.data)
@@ -75,7 +90,7 @@ def get_category(request, data_id):
         return JsonResponse({'message': 'The category_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @permission_classes((AllowAny,))
 def get_country(request, data_id):
     datas = CountryData.objects.all()
@@ -90,10 +105,17 @@ def get_country(request, data_id):
         except CountryData.DoesNotExist: 
             return JsonResponse({'message': 'The country_data does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    # GET, Update, Delete 1 piece of data by id
+    # GET, Create, Update, Delete 1 piece of data by id
     if request.method == 'GET':
         country_data_serializer = CountryDataSerializer(data)
         return JsonResponse(country_data_serializer.data)
+    elif request.method == 'POST':
+        country_data = JSONParser().parse(request)
+        country_data_serializer = ImmigrationStatusDataSerializer(data=country_data)
+        if country_data_serializer.is_valid():
+            country_data_serializer.save()
+            return JsonResponse(country_data_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(country_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
         country_data = CountryData.objects.get(id=data_id)
         country_data_serializer = CountryDataSerializer(instance=country_data, data=request.data)
@@ -110,7 +132,7 @@ def get_country(request, data_id):
         return JsonResponse({'message': 'The country_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @permission_classes((AllowAny,))
 def get_destination(request, data_id):
     datas = DestinationData.objects.all()
@@ -125,10 +147,17 @@ def get_destination(request, data_id):
         except DestinationData.DoesNotExist: 
             return JsonResponse({'message': 'The destination_data does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    # GET, Update, Delete 1 piece of data by id
+    # GET, Create, Update, Delete 1 piece of data by id
     if request.method == 'GET':
         destination_data_serializer = DestinationDataSerializer(data)
         return JsonResponse(destination_data_serializer.data)
+    elif request.method == 'POST':
+        destination_data = JSONParser().parse(request)
+        destination_data_serializer = ImmigrationStatusDataSerializer(data=destination_data)
+        if destination_data_serializer.is_valid():
+            destination_data_serializer.save()
+            return JsonResponse(destination_data_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(destination_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
         destination_data = DestinationData.objects.get(id=data_id)
         destination_data_serializer = DestinationDataSerializer(instance=destination_data, data=request.data)
@@ -143,3 +172,12 @@ def get_destination(request, data_id):
         except Exception as Error:
             return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse({'message': 'The destination_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((AllowAny,))
+def upload_data_file(request, db_type):
+    new_data = request.FILES["data_sample"]
+    print(new_data)
+    print(db_type)
+    return JsonResponse({'message': request}, status=status.HTTP_204_NO_CONTENT)

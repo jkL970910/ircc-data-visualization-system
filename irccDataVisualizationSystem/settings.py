@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'django.contrib.sites',
     'rest_auth.registration',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
