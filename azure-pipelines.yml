@@ -56,3 +56,9 @@ steps:
     testResultsFiles: "**/TEST-*.xml"
     testRunTitle: 'Python $(PYTHON_VERSION)'
   condition: succeededOrFailed()
+- task: Docker@2
+  inputs:
+    containerRegistry: 'dockerIRCC'
+    repository: 'IRCCsystem'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
