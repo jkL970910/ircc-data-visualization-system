@@ -11,18 +11,18 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /irccDataVisualizationSystem
+RUN mkdir /djangoprjt
 
-WORKDIR /irccDataVisualizationSystem
+WORKDIR /djangoprjt
 # Install pip requirements
 RUN pip freeze > requirements.txt
 RUN pip install --upgrade pip
-COPY requirements.txt /irccDataVisualizationSystem/
+COPY requirements.txt /djangoprjt/
 RUN pip install -r requirements.txt
 
 
 
-COPY . /irccDataVisualizationSystem/
+COPY . /idjangoprjt/
 EXPOSE 8000
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
