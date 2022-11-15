@@ -2,7 +2,8 @@
 GNG 5300 project backend  
 
 dependency install before runserver:  
-pip install django djangorestframework djangorestframework-simplejwt mysqlclient django-cors-headers django-rest-auth drf-yasg
+pip install django djangorestframework djangorestframework-simplejwt mysqlclient django-cors-headers django-rest-auth  
+pip install -U drf-yasg  
 
 # Rest APIs of backend  
 [swagger UI](https://irccdjangowebapp.azurewebsites.net/swagger/)
