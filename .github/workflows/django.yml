@@ -1,10 +1,18 @@
-name: Django CI
+name: Django CI/CD
 
 on:
   push:
-    branches: [ "ci-cd-test" ]
+    branches: [ "docker-build-test" ]
   pull_request:
     branches: [ "main" ]
+
+
+env:
+  AZURE_WEBAPP_NAME: irccdjangowebapp
+  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}
+  AZURE_RESOURCE_GROUP: irccdjangoresourcegroup
+  AZURE_APP_PLAN: ASP-irccdjangoresourcegroup-8fea
+  WEBHOOK_NAME: testname
 
 jobs:
   local-build-and-test:
