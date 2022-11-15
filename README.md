@@ -5,7 +5,7 @@ dependency install before runserver:
 pip install django djangorestframework djangorestframework-simplejwt mysqlclient django-cors-headers django-rest-auth drf-yasg
 
 # Rest APIs of backend  
-swagger ui: http://localhost:8000/swagger/  
+[swagger UI](https://irccdjangowebapp.azurewebsites.net/swagger/)
 
 **login**: /login/ or /login/register/ to login/register using username + password, get all the information of the current user and a token, all the other api request the token to be send inside the request header  
 
