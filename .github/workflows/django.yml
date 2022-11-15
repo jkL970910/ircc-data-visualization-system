@@ -34,6 +34,7 @@ jobs:
         python3 manage.py test
   
   docker-build-and-deploy:
+    needs: local-build-and-test
     runs-on: ubuntu-latest
     
     steps:
