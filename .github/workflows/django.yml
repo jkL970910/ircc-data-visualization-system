@@ -1,8 +1,6 @@
 name: Django CI/CD
 
 on:
-  push:
-    branches: [ "docker-build-test" ]
   pull_request:
     branches: [ "main" ]
 
