@@ -1,16 +1,16 @@
-name: Django CI/CD
+name: Django CI/CD PROD
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 
 env:
-  AZURE_WEBAPP_NAME: irccdjangowebapp
-  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}
-  AZURE_RESOURCE_GROUP: irccdjangoresourcegroup
-  AZURE_APP_PLAN: ASP-irccdjangoresourcegroup-8fea
-  WEBHOOK_NAME: testname
+  AZURE_WEBAPP_NAME: irccdjangowebappprod
+  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL_PROD }}
+  AZURE_RESOURCE_GROUP: irccdjangoresourcegroupprod
+  AZURE_APP_PLAN: irccdjangoASPprod
+  WEBHOOK_NAME: webhookprod
 
 jobs:
   local-build-and-test:
@@ -40,19 +40,20 @@ jobs:
     - name: Authenticate using a Service Principal
       uses: azure/actions/login@v1
       with:
-        creds: ${{ secrets.AZURE_SP }}
+        creds: ${{ secrets.AZURE_SP_PROD }}
       
         
     - uses: docker/login-action@v1
       with:
-        registry: ${{ secrets.REGISTRY_URL}}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        registry: ${{ secrets.REGISTRY_URL_PROD}}
+        username: ${{ secrets.REGISTRY_USERNAME_PROD }}
+        password: ${{ secrets.REGISTRY_PASSWORD_PROD }}
 
     - name: Build and push the image tagged with the git commit hash
       run: |
         docker build . -t ${{ env.CONTAINER_REGISTRY }}/djangoapp2:${{ github.sha }}
         docker push ${{ env.CONTAINER_REGISTRY }}/djangoapp2:${{ github.sha }} 
+
         
 # Uncomment the below action snippet if the Web app credentials are not updated as web app settings
     - name: Set Web App ACR authentication
@@ -63,7 +64,7 @@ jobs:
           [
               {
                   "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-                  "value": "${{ secrets.REGISTRY_PASSWORD }}",
+                  "value": "${{ secrets.REGISTRY_PASSWORD_PROD }}",
                   "slotSetting": false
               },
               {
@@ -73,7 +74,7 @@ jobs:
               },
               {
                   "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-                  "value": "${{ secrets.REGISTRY_USERNAME  }}",
+                  "value": "${{ secrets.REGISTRY_USERNAME_PROD  }}",
                   "slotSetting": false
               },
               {
