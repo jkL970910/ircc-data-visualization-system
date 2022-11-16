@@ -1,9 +1,7 @@
-name: Django CI/CD
+name: Django CI/CD PROD
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 
