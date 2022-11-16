@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "web-ASPName": {
-            "value": "irccdjangoASPprod"
+            "value": "irccdjangoASPprodName"
         },
         "location": {
             "value": "East US"
         },
         "webappName": {
-            "value": "irccdjangowebappProd"
+            "value": "irccdjangowebappprodName"
         }
     }
 }
