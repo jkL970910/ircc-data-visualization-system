@@ -11,7 +11,7 @@ env:
   AZURE_WEBAPP_NAME: irccdjangowebappprod
   CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL_PROD }}
   AZURE_RESOURCE_GROUP: irccdjangoresourcegroupprod
-  AZURE_APP_PLAN: ASP-irccdjangoresourcegroup-8fea
+  AZURE_APP_PLAN: irccdjangoASPprod
   WEBHOOK_NAME: webhookprod
 
 jobs:
