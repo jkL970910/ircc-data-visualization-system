@@ -6,7 +6,7 @@ from .serializer import UserProfileSerializer
 from rest_framework import status
 from .models import UserProfile
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from subscription.models import Subscription
 from subscription.serializer import SubscriptionSerializer
 from plan.models import Plan
@@ -16,7 +16,7 @@ from plan.serializer import PlanSerializer
 
 @csrf_exempt
 @api_view(['POST'])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def check_login(request):
     username = request.data['username'] or None
     password = request.data['password'] or None
@@ -46,7 +46,7 @@ def check_login(request):
 
 @csrf_exempt
 @api_view(['POST'])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def user_register(request):
     # POST a new user
     if request.method == 'POST':
