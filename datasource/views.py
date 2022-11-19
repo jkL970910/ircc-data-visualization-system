@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from .models import ImmigrationStatusData, CountryData, CategoryData, DestinationData
 from django.http import JsonResponse
 from rest_framework import status
@@ -9,7 +9,7 @@ from .serializer import ImmigrationStatusDataSerializer, CategoryDataSerializer,
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def get_immigration(request, data_id):
     if data_id == '*':
         datas = ImmigrationStatusData.objects.all()
@@ -49,7 +49,7 @@ def get_immigration(request, data_id):
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def get_category(request, data_id):
     datas = CategoryData.objects.all()
     category_data_serializer = CategoryDataSerializer(datas, many=True)
@@ -91,7 +91,7 @@ def get_category(request, data_id):
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def get_country(request, data_id):
     datas = CountryData.objects.all()
     country_data_serializer = CountryDataSerializer(datas, many=True)
@@ -133,7 +133,7 @@ def get_country(request, data_id):
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def get_destination(request, data_id):
     datas = DestinationData.objects.all()
     destination_data_serializer = DestinationDataSerializer(datas, many=True)
@@ -175,7 +175,7 @@ def get_destination(request, data_id):
 
 @csrf_exempt
 @api_view(['POST'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def upload_data_file(request, db_type):
     new_data = request.FILES["data_sample"]
     print(new_data)
