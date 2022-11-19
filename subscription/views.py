@@ -1,15 +1,14 @@
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from .models import Subscription
 from django.http import JsonResponse
 from rest_framework import status
 from .serializer import SubscriptionSerializer
-from rest_framework.parsers import JSONParser 
 
 @csrf_exempt
 @api_view(['GET'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def subscription_detail(request, user_id):
     try: 
         subscription = Subscription.objects.get(user_id=user_id) 
@@ -20,7 +19,7 @@ def subscription_detail(request, user_id):
 
 @csrf_exempt
 @api_view(['PUT'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def subscription_update(request, sub_id):
     try: 
         subscription = Subscription.objects.get(id=sub_id) 

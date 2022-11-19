@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from .models import Plan
 from django.http import JsonResponse
 from rest_framework import status
@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 
 @csrf_exempt
 @api_view(['POST'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def plan_create(request):
     plan_data = JSONParser().parse(request)
     plan_serializer = PlanSerializer(data=plan_data)
@@ -20,7 +20,7 @@ def plan_create(request):
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def plan_detail(request, plan_id):
     if plan_id == '*':
         plans = Plan.objects.all()
