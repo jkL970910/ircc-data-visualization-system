@@ -12,6 +12,7 @@ class UserProfile(AbstractUser):
     user_address = models.CharField(max_length=250, blank=True, default='')
     user_phone = models.CharField(max_length=250, blank=True, default='')
     user_icon = models.CharField(max_length=250, blank=True, default='')
+    user_postcode = models.CharField(max_length=250, blank=True, default='')
 
     REQUIRED_FIELDS = []
 
