@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser 
 from django.http import JsonResponse
-from .serializer import UserProfileSerializer
+from .serializer import UserProfileSerializer, UserProfileSerializerLogin
 from rest_framework import status
 from .models import UserProfile
 from rest_framework.authtoken.models import Token
@@ -51,7 +51,7 @@ def user_register(request):
     # POST a new user
     if request.method == 'POST':
         user_data = JSONParser().parse(request)
-        user_profile_serializer = UserProfileSerializer(data=user_data)
+        user_profile_serializer = UserProfileSerializerLogin(data=user_data)
         if user_profile_serializer.is_valid():
             user_profile_serializer.save()
             return JsonResponse(user_profile_serializer.data, status=status.HTTP_201_CREATED)
