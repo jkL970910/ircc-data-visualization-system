@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser 
 from django.http import JsonResponse
-from .serializer import UserProfileSerializer, UserProfileSerializerLogin
+from .serializer import UserProfileSerializer, UserProfileSerializerLogin, UserProfileSerializerInfo
 from rest_framework import status
 from .models import UserProfile
 from rest_framework.authtoken.models import Token
@@ -64,7 +64,7 @@ def user_detail(request, user_id):
     if user_id == '*':
         users = UserProfile.objects.all()
 
-        user_profile_serializer = UserProfileSerializer(users, many=True)
+        user_profile_serializer = UserProfileSerializerInfo(users, many=True)
         return JsonResponse(user_profile_serializer.data, safe=False)
     else:
         try: 
