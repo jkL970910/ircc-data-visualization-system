@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 import uuid;
 
 class UserProfile(AbstractUser):
-    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=250, blank=False, default='')
     user_gender = models.CharField(max_length=6, blank=False, default='male')
     user_birthdate = models.DateTimeField(default=datetime.now, blank=True)

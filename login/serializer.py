@@ -9,9 +9,9 @@ class UserProfileSerializerLogin(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ["user_id", "username", "first_name", "last_name", "email", "is_staff", "full_name", "user_gender", "user_birthdate", "user_address", "user_phone", "user_icon", "user_postcode"]
+        fields = ["id", "username", "first_name", "last_name", "email", "is_staff", "full_name", "user_gender", "user_birthdate", "user_address", "user_phone", "user_icon", "user_postcode"]
 
 class UserProfileSerializerInfo(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = [["username", "email", "is_staff", "full_name", "user_gender", "user_birthdate", "user_address", "user_phone", "user_postcode"]]
+        fields = ["id", "username", "email", "is_staff", "full_name", "user_gender", "user_birthdate", "user_address", "user_phone", "user_postcode"]
