@@ -31,7 +31,7 @@ EXPOSE 8000
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python3-debug
 # File wsgi.py was not found. Please enter the Python path to wsgi file.
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3", "manage.py", "runserver"]
 
 # # For more information, please refer to https://aka.ms/vscode-docker-python
 # FROM python:3.9-slim
