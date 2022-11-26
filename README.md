@@ -1,5 +1,5 @@
 # ircc-data-visualization-system  
-GNG 5300 project backend  
+GNG 5300 project backend  ?
 
 dependency install before runserver:  
 pip install django djangorestframework djangorestframework-simplejwt mysqlclient django-cors-headers django-rest-auth  
