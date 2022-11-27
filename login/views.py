@@ -30,7 +30,7 @@ def check_login(request):
         if user.password == password:
             user_profile_serializer = UserProfileSerializer(user)
             token, _ = Token.objects.get_or_create(user=user)
-            subscription_data = Subscription.objects.get_or_create(user_id=user.user_id)[0]
+            subscription_data = Subscription.objects.get_or_create(id=user.id)[0]
             # sign as free plan as default
             if subscription_data.plan_id == "none":
                 plan_data = Plan.objects.get_or_create(plan_name='free')[0]
@@ -60,15 +60,15 @@ def user_register(request):
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes((IsAuthenticated,))
-def user_detail(request, user_id):
-    if user_id == '*':
+def user_detail(request, id):
+    if id == '*':
         users = UserProfile.objects.all()
 
         user_profile_serializer = UserProfileSerializerInfo(users, many=True)
         return JsonResponse(user_profile_serializer.data, safe=False)
     else:
         try: 
-            userProfile = UserProfile.objects.get(user_id=user_id) 
+            userProfile = UserProfile.objects.get(id=id) 
         except UserProfile.DoesNotExist: 
             return JsonResponse({'message': 'The user does not exist'}, status=status.HTTP_404_NOT_FOUND)
     
@@ -77,7 +77,7 @@ def user_detail(request, user_id):
         user_profile_serializer = UserProfileSerializer(userProfile)
         return JsonResponse(user_profile_serializer.data)
     elif request.method == 'PUT':
-        userProfile = UserProfile.objects.get(user_id=user_id)
+        userProfile = UserProfile.objects.get(id=id)
         user_profile_serializer = UserProfileSerializer(instance=userProfile, data=request.data)
         if user_profile_serializer.is_valid():
             user_profile_serializer.save()
@@ -86,7 +86,7 @@ def user_detail(request, user_id):
             return JsonResponse({'message': user_profile_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         try:
-            UserProfile.objects.get(user_id=user_id).delete()
+            UserProfile.objects.get(id=id).delete()
         except Exception as Error:
             return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse({'message': 'User were deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
