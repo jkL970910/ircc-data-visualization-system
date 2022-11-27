@@ -14,7 +14,7 @@ def get_immigration(request, data_id):
     if data_id == '*':
         datas = ImmigrationStatusData.objects.all()
         plan_serializer = ImmigrationStatusDataSerializer(datas, many=True)
-        return JsonResponse(plan_serializer.data, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(plan_serializer.data, safe=False)
     else:
         try: 
             data = ImmigrationStatusData.objects.get(id=data_id) 
@@ -56,7 +56,7 @@ def get_category(request, data_id):
     if data_id == '*':
         datas = CategoryData.objects.all()
         category_data_serializer = CategoryDataSerializer(datas, many=True)
-        return JsonResponse(category_data_serializer.data, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(category_data_serializer.data, safe=False)
     else:
         try: 
             data = CategoryData.objects.get(id=data_id) 
@@ -98,7 +98,7 @@ def get_country(request, data_id):
     if data_id == '*':
         datas = CountryData.objects.all()
         country_data_serializer = CountryDataSerializer(datas, many=True)
-        return JsonResponse(country_data_serializer.data, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(country_data_serializer.data, safe=False)
     else:
         try: 
             data = CountryData.objects.get(id=data_id) 
@@ -140,7 +140,7 @@ def get_destination(request, data_id):
     if data_id == '*':
         datas = DestinationData.objects.all()
         destination_data_serializer = DestinationDataSerializer(datas, many=True)
-        return JsonResponse(destination_data_serializer.data, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(destination_data_serializer.data, safe=False)
     else:
         try: 
             data = DestinationData.objects.get(id=data_id) 
