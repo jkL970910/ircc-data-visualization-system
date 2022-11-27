@@ -19,7 +19,7 @@ def get_immigration(request, data_id):
         try: 
             data = ImmigrationStatusData.objects.get(id=data_id) 
         except ImmigrationStatusData.DoesNotExist: 
-            return JsonResponse({'message': 'The immigration_status_data does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({'message': 'The immigration_status_data does not exist'}, status=status.HTTP_202_ACCEPTED)
 
     # GET, Create, Update, Delete 1 piece of data by id
     if request.method == 'GET':
