@@ -11,7 +11,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ["id", "username", "first_name", "last_name", "email", "is_staff", "full_name", "user_gender", "user_address", "user_phone", "user_icon", "user_postcode"]
 
+
 class UserProfileSerializerInfo(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ["id", "username", "email", "is_staff", "full_name", "user_gender", "user_address", "user_phone", "user_postcode"]
+

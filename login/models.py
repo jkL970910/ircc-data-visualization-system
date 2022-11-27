@@ -7,7 +7,7 @@ import uuid;
 class UserProfile(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=250, blank=False, default='')
-    user_gender = models.CharField(max_length=6, blank=False, default='male')
+    user_gender = models.CharField(max_length=250, blank=False, default='male')
     user_birthdate = models.DateTimeField(default=datetime.now, blank=True)
     user_address = models.CharField(max_length=250, blank=True, default='')
     user_phone = models.CharField(max_length=250, blank=True, default='')
