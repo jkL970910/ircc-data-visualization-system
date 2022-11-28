@@ -106,10 +106,10 @@ REST_AUTH_SERIALIZERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'IRCC',
+        'NAME': 'ircc',
         'USER': 'admin',
-        'PASSWORD': '12345678',
-        'HOST': 'ircc-data-visualization.cddcwnbauujl.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 'admin1234',
+        'HOST': 'ircc.cl50p5r4moax.us-east-1.rds.amazonaws.com',
         'PORT': 3306,
     }
 }
