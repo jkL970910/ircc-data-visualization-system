@@ -48,6 +48,7 @@ class DestinationData(models.Model):
     family_sponsorship = models.CharField(max_length=250, blank=False, default="0")
     business_immigrant = models.CharField(max_length=250, blank=False, default="0")
     canadian_experience_class = models.CharField(max_length=250, blank=False, default="0")
+    total = models.CharField(max_length=250, blank=False, default="0")
 
     class Meta:
         managed = True
