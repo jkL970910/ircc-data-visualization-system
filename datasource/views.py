@@ -15,6 +15,10 @@ def get_immigration(request, data_id):
         datas = ImmigrationStatusData.objects.all()
         plan_serializer = ImmigrationStatusDataSerializer(datas, many=True)
         return JsonResponse(plan_serializer.data, safe=False)
+    elif data_id == 'free':
+        datas = ImmigrationStatusData.objects.all()[0:20]
+        plan_serializer = ImmigrationStatusDataSerializer(datas, many=True)
+        return JsonResponse(plan_serializer.data, safe=False)
     else:
         try: 
             data = ImmigrationStatusData.objects.get(id=data_id) 
