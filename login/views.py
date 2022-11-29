@@ -75,7 +75,11 @@ def user_detail(request, id):
     # GET, Update, Delete user by id
     if request.method == 'GET':
         user_profile_serializer = UserProfileSerializer(userProfile)
-        return JsonResponse(user_profile_serializer.data)
+        subscription_data = Subscription.objects.get_or_create(id=userProfile.id)[0]
+        subscription_serializer = SubscriptionSerializer(subscription_data)
+        plan_data = Plan.objects.get(id=subscription_data.plan_id)
+        plan_serializer = PlanSerializer(plan_data)
+        return JsonResponse({'user': user_profile_serializer.data, 'subscription': subscription_serializer.data, 'plan': plan_serializer.data})
     elif request.method == 'PUT':
         userProfile = UserProfile.objects.get(id=id)
         user_profile_serializer = UserProfileSerializer(instance=userProfile, data=request.data)
