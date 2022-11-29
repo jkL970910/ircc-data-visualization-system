@@ -6,6 +6,9 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializer import ImmigrationStatusDataSerializer, CategoryDataSerializer, CountryDataSerializer, DestinationDataSerializer
+import base64
+import csv
+import io
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -13,12 +16,12 @@ from .serializer import ImmigrationStatusDataSerializer, CategoryDataSerializer,
 def get_immigration(request, data_id):
     if data_id == '*':
         datas = ImmigrationStatusData.objects.all()
-        plan_serializer = ImmigrationStatusDataSerializer(datas, many=True)
-        return JsonResponse(plan_serializer.data, safe=False)
+        immigration_status_data_serializer = ImmigrationStatusDataSerializer(datas, many=True)
+        return JsonResponse(immigration_status_data_serializer.data, safe=False)
     elif data_id == 'free':
         datas = ImmigrationStatusData.objects.all()[0:20]
-        plan_serializer = ImmigrationStatusDataSerializer(datas, many=True)
-        return JsonResponse(plan_serializer.data, safe=False)
+        immigration_status_data_serializer = ImmigrationStatusDataSerializer(datas, many=True)
+        return JsonResponse(immigration_status_data_serializer.data, safe=False)
     else:
         try: 
             data = ImmigrationStatusData.objects.get(id=data_id) 
@@ -50,6 +53,34 @@ def get_immigration(request, data_id):
         except Exception as Error:
             return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse({'message': 'The immigration_status_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def upload_immigration(request):
+    upload_file = request.data['upload_file'] or None
+    decrypted = base64.b64decode(upload_file).decode('utf-8')
+    with io.StringIO(decrypted) as fp:
+        reader = csv.reader(fp, delimiter=",", quotechar='"')
+        upload_file_list = []
+        itercars = iter(reader)
+        next(itercars)
+        for row in reader:
+            upload_file_list.append({
+                'year': row[1],
+                'gender': row[2],
+                'age': row[3],
+                'category': row[4],
+                'source': row[5],
+                'address': row[6],
+                'status': row[7]
+            })
+    immigration_status_data_serializer = ImmigrationStatusDataSerializer(data=upload_file_list, many=True)
+    if immigration_status_data_serializer.is_valid():
+        immigration_status_data_serializer.save()
+        return JsonResponse({'message': 'The immigration_status_data was uploaded successfully!'}, status=status.HTTP_204_NO_CONTENT)
+    else:
+        return JsonResponse({'message': immigration_status_data_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -176,12 +207,3 @@ def get_destination(request, data_id):
         except Exception as Error:
             return JsonResponse({'message': Error}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse({'message': 'The destination_data was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
-
-@csrf_exempt
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-def upload_data_file(request, db_type):
-    new_data = request.FILES["data_sample"]
-    print(new_data)
-    print(db_type)
-    return JsonResponse({'message': request}, status=status.HTTP_204_NO_CONTENT)
