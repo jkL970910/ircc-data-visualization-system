@@ -31,15 +31,8 @@ def check_login(request):
             user_profile_serializer = UserProfileSerializer(user)
             token, _ = Token.objects.get_or_create(user=user)
             subscription_data = Subscription.objects.get_or_create(id=user.id)[0]
-            # sign as free plan as default
-            if subscription_data.plan_id == "none":
-                plan_data = Plan.objects.get_or_create(plan_name='free')[0]
-                subscription_data.plan_id = plan_data.id
-                subscription_data.save()
             subscription_serializer = SubscriptionSerializer(subscription_data)
-            plan_data = Plan.objects.get(id=subscription_data.plan_id)
-            plan_serializer = PlanSerializer(plan_data)
-            return JsonResponse({'user': user_profile_serializer.data, 'token': token.key, 'subscription': subscription_serializer.data, 'plan': plan_serializer.data})
+            return JsonResponse({'user': user_profile_serializer.data, 'token': token.key, 'subscription': subscription_serializer.data})
         else:
             return JsonResponse({'message': 'Password Didnt Match!'}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse({'message': 'Username or Password can not be empty!'}, status=status.HTTP_400_BAD_REQUEST)
@@ -77,9 +70,7 @@ def user_detail(request, id):
         user_profile_serializer = UserProfileSerializer(userProfile)
         subscription_data = Subscription.objects.get_or_create(id=userProfile.id)[0]
         subscription_serializer = SubscriptionSerializer(subscription_data)
-        plan_data = Plan.objects.get(id=subscription_data.plan_id)
-        plan_serializer = PlanSerializer(plan_data)
-        return JsonResponse({'user': user_profile_serializer.data, 'subscription': subscription_serializer.data, 'plan': plan_serializer.data})
+        return JsonResponse({'user': user_profile_serializer.data, 'subscription': subscription_serializer.data})
     elif request.method == 'PUT':
         userProfile = UserProfile.objects.get(id=id)
         user_profile_serializer = UserProfileSerializer(instance=userProfile, data=request.data)
